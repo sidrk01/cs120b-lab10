@@ -9,9 +9,12 @@
  */
 #include <avr/io.h>
 #ifdef _SIMULATE_
-#include "simAVRHeader.h"
-#include "timer.h"
-#include "keypad.h"
+#include "../header/simAVRHeader.h"
+#include "../header/timer.h"
+#include "../header/keypad.h"
+// #include "../header/task.h"
+// #include "../header/pause.h"
+// #include "../header/gcd.h"
 #endif
 
 int main(void) {
