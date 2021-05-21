@@ -1,6 +1,6 @@
-/*	Author: sramk002
- *  Partner(s) Name: 
- *	Lab Section:
+/*	Author: Sidharth Ramkumar 
+ *  Partner(s) Name: none 
+ *	Lab Section: 022
  *	Assignment: Lab #10  Exercise #1
  *	Exercise Description: [optional - include for your own benefit]
  *
@@ -9,24 +9,57 @@
  */
 #include <avr/io.h>
 #ifdef _SIMULATE_
-#include "../header/simAVRHeader.h"
-#include "../header/timer.h"
-#include "../header/keypad.h"
-// #include "../header/task.h"
-// #include "../header/pause.h"
-// #include "../header/gcd.h"
+#include ".simAVRHeader.h"
+#include "timer.h"
+#include "keypad.h"
+#include "task.h"
+// #include "pause.h"
+// #include "gcd.h"
 #endif
 
+enum Keypad_State { SMStart, Wait, Read };
+
+int Tick_Fct(int state){
+    switch (state){
+        case SMStart:
+            state = Wait; 
+        break;
+        
+        case Wait: 
+            state = Read; 
+        break;
+            
+        case Read:
+            state = Read;
+        break;
+    }
+    
+    switch (state){
+        case SMStart:
+        break;
+        
+        case Wait:
+            keypadKey = '\0';
+        break;
+            
+        case Read:
+            keypadKey = GetKeyPadKey();
+        break;
+    }
+    
+    return state;
+}
+
 int main(void) {
-    /*
+    
   
-    /*Insert DDR and PORT initializations 
+    /*Insert DDR and PORT initializations*/
     DDRA = 0x00; PORTA = 0xFF;
     DDRB = 0xFF; PORTB = 0x00;
     
     //Declare an array of tasks
-    static _task task1, task2, task3, task4;
-    _task *tasks[] - {&task1, &task2, &task3, &task4 };
+    static task task1, task2, task3, task4;
+    _task *tasks[] = {&task1, &task2, &task3, &task4 };
     const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
     
     const char start = -1;
@@ -72,12 +105,12 @@ int main(void) {
         TimerFlag = 0;
 }
 return 0; //Error: Program should not exit;
-    */
     
-    /* Insert DDR and PORT initializations */
+    
+    /* Insert DDR and PORT initializations 
         DDRB = 0xFF; PORTB = 0x00;
         DDRC = 0xF0; PORTC = 0x0F;
-    /* Insert your solution below */
+    /* Insert your solution below 
     unsigned char x;
     while (1) {
         x = GetKeypadKey();
@@ -94,7 +127,9 @@ return 0; //Error: Program should not exit;
             case '#': PORTB = 0x0F; break;
             default: PORTB = 0x1B; break; //Should never occur. Middle LED off.
         }
+       
 
     }
     return 1;
+    */
 }
