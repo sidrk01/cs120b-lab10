@@ -9,8 +9,3 @@ unsigned long int findGCD(unsigned long int a, unsigned long int b){
   }
   return 0;
 }
-
-unsigned long GCD = tasks[0]->period;
-for (i = 1; i < numTasks, i++) {
-  GCD = findGCD(GCD, tasks[i]->period);
-}
