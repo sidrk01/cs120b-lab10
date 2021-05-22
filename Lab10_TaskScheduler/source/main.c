@@ -69,9 +69,12 @@ int main(void) {
     
   
     /*Insert DDR and PORT initializations*/
-    DDRA = 0xF0; PORTA = 0x0F;
+    /*
+    DDRB = 0x7F; PORTA = 0x80;
+    DDRC = 0x00; PORTC = 0xFF;
+    */
     DDRB = 0xFF; PORTB = 0x00;
-    
+    DDRC = 0x00; PORTC = 0xFF;
     //Declare an array of tasks
     static task task1;
     _task *tasks[] = {&task1 };
