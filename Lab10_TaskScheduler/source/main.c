@@ -49,7 +49,22 @@ int Tick_Fct(int state){
     
     return state;
 }
+/*
+static task task1;
+task *tasks[] = {&task1 };
+const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
+const char start 1;
 
+void TimerISR() {
+    for (unsigned char i = 0; i < numTasks; ++i){
+        if (tasks[i]->elapsedTime >= tasks[i]->period){
+            tasks.[i]->state = tasks[i]->TickFct(tasks[i]->state);
+            tasks[i]->elapsedTime = 0;
+        }
+        tasks[i]->elapsedTime += tasks[i]->period;
+    }
+}
+*/
 int main(void) {
     
   
@@ -68,23 +83,7 @@ int main(void) {
     task1.period = 50; //Task period 
     task1.elapsedTime = task1.period; //Task current elapsed time.
     task1.TickFct = &pauseButtonToggleSMTick; //Funciton pointer for the tick.
-    /*
-    //Task2 (toggleLED0SM)
-    task2.state = start; 
-    task2.period = 500;
-    task2.elapsedTime = task2.period;
-    task2.TickFct = &toggleLED0SMTick;
-    //Task3 (toggleLED1SM)
-    task3.state = start;
-    task3.period = 1000; 
-    task3.elapsedTime = task3.period;
-    task3.TickFct = &toggleLED1SMTick;
-    //Task4 (displaySM)
-    task4.state = start;
-    task4.period = 10;
-    task4.elapsedTime = task4.period;
-    task4.TickFct = &displaySMTick;
-    */
+    
     
     unsigned long GCD = tasks[0]->period;
     for (i = 1; i < numTasks, i++) {
@@ -94,7 +93,35 @@ int main(void) {
     TimerOn();
         
     unsigned short i; 
+    unsigned char x;
+        
+        
     while (1) {
+        
+        x = GetKeypadKey();
+        
+        switch(x){
+            case '\0': PORTB = 0x1F | 0x80; break; //All 5 LEDS On
+            case '1': PORTB = 0x01 | 0x80; break; //Hex equivalent
+            case '2': PORTB = 0x02 | 0x80; break;
+            case '3': PORTB = 0x03 | 0x80; break;
+            case '4': PORTB = 0x04 | 0x80; break;
+            case '5': PORTB = 0x05 | 0x80; break;
+            case '6': PORTB = 0x06 | 0x80; break;
+            case '7': PORTB = 0x07 | 0x80; break;
+            case '8': PORTB = 0x08 | 0x80; break;
+            case '9': PORTB = 0x09 | 0x80; break;
+            case 'A': PORTB = 0x0A | 0x80; break;
+            case 'B': PORTB = 0x0B | 0x80; break;
+            case 'C': PORTB = 0x0C | 0x80; break;
+            case 'D': PORTB = 0x0D | 0x80; break;
+            case '*': PORTB = 0x0E | 0x80; break;
+            case '0': PORTB = 0x00 | 0x80; break;
+            case '#': PORTB = 0x0F | 0x80; break;
+            
+            default: PORTB = 0x1B; break; //Should never occur. Middle LED off.
+        }
+        
         for (i = 0; i < numTasks; i++){
             if (tasks[i]->elapsedTime == tasks[i]->period) { //Task is ready to tick
                 tasks[i]->state = tasks[i]->TickFct(tasks[i]->state); //Set next state
@@ -106,31 +133,5 @@ int main(void) {
         TimerFlag = 0;
 }
 return 0; //Error: Program should not exit;
-    
-    
-    /* Insert DDR and PORT initializations 
-        DDRB = 0xFF; PORTB = 0x00;
-        DDRC = 0xF0; PORTC = 0x0F;
-    /* Insert your solution below 
-    unsigned char x;
-    while (1) {
-        x = GetKeypadKey();
-        switch(x){
-            case '\0': PORTB = 0x1F; break; //All 5 LEDS On
-            case '1': PORTB = 0x01; break; //Hex equivalent
-            case '2': PORTB = 0x02; break;
-                
-            // .. ***** FINISH ***** 
-            
-            case 'D': PORTB = 0x0D; break;
-            case '*': PORTB = 0x0E; break;
-            case '0': PORTB = 0x00; break;
-            case '#': PORTB = 0x0F; break;
-            default: PORTB = 0x1B; break; //Should never occur. Middle LED off.
-        }
-       
-
-    }
-    return 1;
-    */
+        
 }
