@@ -14,6 +14,8 @@
  unsigned long _avr_timer_M = 1; // Start count from here, down to 0. Default 1ms
  unsigned long _avr_timer_cntcurr = 0; // Current internal count of 1ms ticks
 
+void TimerISR();
+
 // Set TimerISR() to tick every M ms
  void TimerSet(unsigned long M) {
  	_avr_timer_M = M;
@@ -41,9 +43,6 @@ void TimerOff() {
 	TCCR1B 	= 0x00; // bit3bit2bit1bit0=0000: timer off
 }
 
-void TimerISR() {
-	TimerFlag = 1;
-}
 
 ISR(TIMER1_COMPA_vect)
 {
