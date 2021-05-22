@@ -82,7 +82,7 @@ int main(void) {
     task1.state = start; //Task initial state.
     task1.period = 50; //Task period 
     task1.elapsedTime = task1.period; //Task current elapsed time.
-    task1.TickFct = &pauseButtonToggleSMTick; //Funciton pointer for the tick.
+    task1.TickFct = &Tick_Fct; //Function pointer for the tick.
     
     
     unsigned long GCD = tasks[0]->period;
