@@ -15,7 +15,7 @@
 #include "task.h"
 // #include "pause.h"
 // #include "gcd.h"
-#endif
+#define button1 = ~PINB & 0x80
 
 enum Keypad_State { SMStart, Wait, Read };
 
@@ -70,7 +70,7 @@ int main(void) {
   
     /*Insert DDR and PORT initializations*/
     /*
-    DDRB = 0x7F; PORTA = 0x80;
+    DDRB = 0x7F; PORTB = 0x80;
     DDRC = 0x00; PORTC = 0xFF;
     */
     DDRB = 0xFF; PORTB = 0x00;
