@@ -13,9 +13,11 @@
 #include "timer.h"
 #include "keypad.h"
 #include "task.h"
+#include "doorlock.h"
 // #include "pause.h"
-// #include "gcd.h"
-#define button1 = ~PINB & 0x80
+#include "gcd.h"
+
+//#define button1 = ~PINB & 0x80
 
 enum Keypad_State { SMStart, Wait, Read };
 
