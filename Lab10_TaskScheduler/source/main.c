@@ -54,12 +54,12 @@ int main(void) {
     
   
     /*Insert DDR and PORT initializations*/
-    DDRA = 0x00; PORTA = 0xFF;
+    DDRA = 0xF0; PORTA = 0x0F;
     DDRB = 0xFF; PORTB = 0x00;
     
     //Declare an array of tasks
-    static task task1, task2, task3, task4;
-    _task *tasks[] = {&task1, &task2, &task3, &task4 };
+    static task task1;
+    _task *tasks[] = {&task1 };
     const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
     
     const char start = -1;
@@ -68,6 +68,7 @@ int main(void) {
     task1.period = 50; //Task period 
     task1.elapsedTime = task1.period; //Task current elapsed time.
     task1.TickFct = &pauseButtonToggleSMTick; //Funciton pointer for the tick.
+    /*
     //Task2 (toggleLED0SM)
     task2.state = start; 
     task2.period = 500;
@@ -83,7 +84,7 @@ int main(void) {
     task4.period = 10;
     task4.elapsedTime = task4.period;
     task4.TickFct = &displaySMTick;
-    
+    */
     
     unsigned long GCD = tasks[0]->period;
     for (i = 1; i < numTasks, i++) {
