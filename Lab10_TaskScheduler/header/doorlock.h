@@ -6,7 +6,7 @@ enum Keypad_Lock { SMStart2, Wait, Pound_Press, Pound_Wait, One_Press, One_Wait,
                   Three_Press, Three_Wait, Four_Press, Four_Wait, Five_Press, Five_Wait};
 
 void Tick_Fct2(int state){
-  static unsigned char x = GetKeypadKey();
+  unsigned char x = GetKeypadKey();
   
   switch (state){
     case SMStart2:
@@ -93,7 +93,7 @@ void Tick_Fct2(int state){
       
     case Three_Wait:
       if (x == '\0'){
-        state = ThreeWait;
+        state = Three_Wait;
       } else if (x == '4'){
         state = Four_Press;
       } else {
