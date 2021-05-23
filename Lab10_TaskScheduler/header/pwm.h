@@ -1,3 +1,4 @@
+#define button2 ~PINA & 0x80;
 
 //0.954 hz is the lowest frequency possible with this function 
 //based on settings in PWM_on()
