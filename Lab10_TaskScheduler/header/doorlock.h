@@ -1,7 +1,7 @@
 #ifndef __DOORLOCK_H__
 #define __DOORLOCK_H__
  
-#define button1 ~PINB & 0x80
+#define button1 ~PINA & 0x01
 
 enum Keypad_Lock { SMStart2, Wait, Pound_Press, Pound_Wait, One_Press, One_Wait, Two_Press, Two_Wait, 
                   Three_Press, Three_Wait, Four_Press, Four_Wait, Five_Press, Five_Wait};
@@ -149,8 +149,21 @@ int Tick_Fct2(int state){
        PORTB = 0x01;
     break;
       
-    default:
-      PORTB = 0x00;
+    case One_Wait:
+      PORTB = 0x02;
+    break;
+    
+   case Two_Wait:
+    PORTB = 0x04;
+    break;
+   
+   case Three_Wait:
+    PORTB = 0x08;
+    break;
+    
+   case Four_Wait:
+    PORTB = 0x10;
+    break;
   }
  
  return state;
