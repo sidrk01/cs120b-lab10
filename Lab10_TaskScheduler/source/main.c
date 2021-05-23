@@ -16,6 +16,7 @@
 //#include "doorlock.h"
 // #include "pause.h"
 #include "gcd.h"
+#endif
 
 //#define button1 = ~PINB & 0x80
 unsigned char keypadKey;
@@ -46,7 +47,7 @@ int Tick_Fct(int state){
         break;
 
         case Read:
-             keypadKey = GetKeyPadKey();
+             keypadKey = GetKeypadKey();
         break;
     }
 
@@ -76,7 +77,7 @@ int main(void) {
     DDRC = 0x00; PORTC = 0xFF;
     */
     DDRB = 0xFF; PORTB = 0x00;
-    DDRC = 0x00; PORTC = 0xFF;
+    DDRC = 0xF0; PORTC = 0x0F;
     //Declare an array of tasks
     static task task1;
     task *tasks[] = {&task1 };
@@ -106,7 +107,7 @@ int main(void) {
         x = GetKeypadKey();
 
         switch(x){
-            case '\0': PORTB = 0x1F | 0x80; break; //All 5 LEDS On
+            case '\0': PORTB = 0x1F; break; //All 5 LEDS On
             case '1': PORTB = 0x01 | 0x80; break; //Hex equivalent
             case '2': PORTB = 0x02 | 0x80; break;
             case '3': PORTB = 0x03 | 0x80; break;
