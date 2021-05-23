@@ -15,6 +15,8 @@
 #include "task.h"
 #include "doorlock.h"
 // #include "pause.h"
+//#include "pwm.h"
+//#include "notes.h"
 #include "gcd.h"
 #endif
 
