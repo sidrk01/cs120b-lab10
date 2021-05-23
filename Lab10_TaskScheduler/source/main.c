@@ -1,54 +1,55 @@
-/*	Author: Sidharth Ramkumar 
+/*      Author: Sidharth Ramkumar 
  *  Partner(s) Name: none 
- *	Lab Section: 022
- *	Assignment: Lab #10  Exercise #1
- *	Exercise Description: [optional - include for your own benefit]
+ *      Lab Section: 022
+ *      Assignment: Lab #10  Exercise #1
+ *      Exercise Description: [optional - include for your own benefit]
  *
- *	I acknowledge all content contained herein, excluding template or example
- *	code, is my own original work.
+ *      I acknowledge all content contained herein, excluding template or example
+ *      code, is my own original work.
  */
 #include <avr/io.h>
 #ifdef _SIMULATE_
-#include ".simAVRHeader.h"
+#include "simAVRHeader.h"
 #include "timer.h"
 #include "keypad.h"
 #include "task.h"
-#include "doorlock.h"
+//#include "doorlock.h"
 // #include "pause.h"
 #include "gcd.h"
 
 //#define button1 = ~PINB & 0x80
+unsigned char keypadKey;
 
 enum Keypad_State { SMStart, Wait, Read };
 
 int Tick_Fct(int state){
     switch (state){
         case SMStart:
-            state = Wait; 
+            state = Wait;
         break;
-        
-        case Wait: 
-            state = Read; 
+
+        case Wait:
+            state = Read;
         break;
-            
+
         case Read:
             state = Read;
         break;
     }
-    
+
     switch (state){
         case SMStart:
         break;
-        
+
         case Wait:
             keypadKey = '\0';
         break;
-            
+
         case Read:
-            keypadKey = GetKeyPadKey();
+             keypadKey = GetKeyPadKey();
         break;
     }
-    
+
     return state;
 }
 /*
@@ -56,7 +57,6 @@ static task task1;
 task *tasks[] = {&task1 };
 const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
 const char start 1;
-
 void TimerISR() {
     for (unsigned char i = 0; i < numTasks; ++i){
         if (tasks[i]->elapsedTime >= tasks[i]->period){
@@ -68,8 +68,8 @@ void TimerISR() {
 }
 */
 int main(void) {
-    
-  
+
+
     /*Insert DDR and PORT initializations*/
     /*
     DDRB = 0x7F; PORTB = 0x80;
@@ -79,32 +79,31 @@ int main(void) {
     DDRC = 0x00; PORTC = 0xFF;
     //Declare an array of tasks
     static task task1;
-    _task *tasks[] = {&task1 };
+    task *tasks[] = {&task1 };
     const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
-    
-    const char start = -1;
+
+      const char start = -1;
     //Task1 (pauseButtonToggleSM)
     task1.state = start; //Task initial state.
     task1.period = 50; //Task period 
     task1.elapsedTime = task1.period; //Task current elapsed time.
     task1.TickFct = &Tick_Fct; //Function pointer for the tick.
-    
-    
+
+
     unsigned long GCD = tasks[0]->period;
-    for (i = 1; i < numTasks, i++) {
+    for (unsigned int i = 1; i < numTasks; i++) {
     GCD = findGCD(GCD, tasks[i]->period);
-    
+
     TimerSet(GCD);
     TimerOn();
-        
-    unsigned short i; 
+
+    unsigned short i;
     unsigned char x;
-        
-        
+
     while (1) {
-        
+
         x = GetKeypadKey();
-        
+
         switch(x){
             case '\0': PORTB = 0x1F | 0x80; break; //All 5 LEDS On
             case '1': PORTB = 0x01 | 0x80; break; //Hex equivalent
@@ -123,10 +122,10 @@ int main(void) {
             case '*': PORTB = 0x0E | 0x80; break;
             case '0': PORTB = 0x00 | 0x80; break;
             case '#': PORTB = 0x0F | 0x80; break;
-            
+
             default: PORTB = 0x1B; break; //Should never occur. Middle LED off.
         }
-        
+
         for (i = 0; i < numTasks; i++){
             if (tasks[i]->elapsedTime == tasks[i]->period) { //Task is ready to tick
                 tasks[i]->state = tasks[i]->TickFct(tasks[i]->state); //Set next state
@@ -138,5 +137,6 @@ int main(void) {
         TimerFlag = 0;
 }
 return 0; //Error: Program should not exit;
-        
+
 }
+
