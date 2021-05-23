@@ -93,7 +93,8 @@ int main(void) {
     unsigned long GCD = tasks[0]->period;
     for (unsigned int i = 1; i < numTasks; i++) {
     GCD = findGCD(GCD, tasks[i]->period);
-
+    }
+    
     TimerSet(GCD);
     TimerOn();
 
