@@ -1,3 +1,6 @@
+#ifndef __PWM_H__
+#define __PWM_H__
+
 #define button2 ~PINA & 0x80;
 
 //0.954 hz is the lowest frequency possible with this function 
@@ -39,3 +42,5 @@ void PWM_off() {
 	TCCR3A = 0x00;
 	TCCR3B = 0x00;
 }
+
+#endif //__PWM_H__
