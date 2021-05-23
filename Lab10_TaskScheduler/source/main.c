@@ -18,7 +18,6 @@
 #include "gcd.h"
 #endif
 
-#define button1 = ~PINB & 0x80
 unsigned char keypadKey;
 
 enum Keypad_State { SMStart, Wait_One, Read };
@@ -72,12 +71,9 @@ int main(void) {
 
 
     /*Insert DDR and PORT initializations*/
-    /*
     DDRB = 0x7F; PORTB = 0x80;
-    DDRC = 0x00; PORTC = 0xFF;
-    */
-    DDRB = 0xFF; PORTB = 0x00;
     DDRC = 0xF0; PORTC = 0x0F;
+    
     //Declare an array of tasks
     static task task1, task2;
     task *tasks[] = {&task1, &task2 };
@@ -104,7 +100,6 @@ int main(void) {
     TimerOn();
 
     unsigned short i;
-    unsigned char x;
 
     while (1) {
 /*
