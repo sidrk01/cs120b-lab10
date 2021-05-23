@@ -69,11 +69,11 @@ int Tick_Fct2(int state){
    case Unlock:
      PORTB = 0x01;
     break;
-  }
+  
     
    default:
     PORTB = 0x00;
- 
+  }
  return state;
 }
 
