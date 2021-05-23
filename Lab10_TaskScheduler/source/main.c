@@ -1,7 +1,7 @@
 /*      Author: Sidharth Ramkumar 
  *  Partner(s) Name: none 
  *      Lab Section: 022
- *      Assignment: Lab #10  Exercise #1
+ *      Assignment: Lab #10  Exercise #2
  *      Exercise Description: [optional - include for your own benefit]
  *
  *      I acknowledge all content contained herein, excluding template or example
@@ -13,7 +13,7 @@
 #include "timer.h"
 #include "keypad.h"
 #include "task.h"
-//#include "doorlock.h"
+#include "doorlock.h"
 // #include "pause.h"
 #include "gcd.h"
 #endif
@@ -79,8 +79,8 @@ int main(void) {
     DDRB = 0xFF; PORTB = 0x00;
     DDRC = 0xF0; PORTC = 0x0F;
     //Declare an array of tasks
-    static task task1;
-    task *tasks[] = {&task1 };
+    static task task1 task2;
+    task *tasks[] = {&task1, &task2 };
     const unsigned short numTasks = sizeof(tasks) / sizeof(task*);
 
       const char start = -1;
@@ -90,6 +90,10 @@ int main(void) {
     task1.elapsedTime = task1.period; //Task current elapsed time.
     task1.TickFct = &Tick_Fct; //Function pointer for the tick.
 
+    task2.state = start;
+    task2.period = 50;
+    task2.elapsedTime = task2.period;
+    task2.TickFct = &Tick_Fct2;
 
     unsigned long GCD = tasks[0]->period;
     for (unsigned int i = 1; i < numTasks; i++) {
@@ -103,7 +107,7 @@ int main(void) {
     unsigned char x;
 
     while (1) {
-
+/*
         x = GetKeypadKey();
 
         switch(x){
@@ -127,7 +131,7 @@ int main(void) {
 
             default: PORTB = 0x1B; break; //Should never occur. Middle LED off.
         }
-
+*/
         for (i = 0; i < numTasks; i++){
             if (tasks[i]->elapsedTime == tasks[i]->period) { //Task is ready to tick
                 tasks[i]->state = tasks[i]->TickFct(tasks[i]->state); //Set next state
