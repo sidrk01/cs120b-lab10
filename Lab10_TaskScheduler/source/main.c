@@ -71,8 +71,7 @@ int main(void) {
 
 
     /*Insert DDR and PORT initializations*/
-    DDRB = 0xFF; PORTB = 0x00;
-    DDRA = 0x00; PORTA = 0xFF;
+    DDRB = 0x7F; PORTB = 0x80;  // config PB[6:0] as outputs, PB[7] inputs
     DDRC = 0xF0; PORTC = 0x0F;
 
     //Declare an array of tasks
@@ -88,7 +87,7 @@ int main(void) {
     task1.TickFct = &Tick_Fct; //Function pointer for the tick.
 
     task2.state = start;
-    task2.period = 50;
+    task2.period = 500;
     task2.elapsedTime = task2.period;
     task2.TickFct = &Tick_Fct2;
 
