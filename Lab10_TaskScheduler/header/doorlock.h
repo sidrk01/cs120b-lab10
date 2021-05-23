@@ -1,170 +1,78 @@
 #ifndef __DOORLOCK_H__
 #define __DOORLOCK_H__
  
-#define button1 ~PINA & 0x01
+#define button1 ~PINB & 0x80
 
-enum Keypad_Lock { SMStart2, Wait, Pound_Press, Pound_Wait, One_Press, One_Wait, Two_Press, Two_Wait, 
-                  Three_Press, Three_Wait, Four_Press, Four_Wait, Five_Press, Five_Wait};
+char userCombo[6] = {'#', '1', '2', '3', '4', '5'}
+
+enum Keypad_Lock {Reset, Wait, Release, Unlock ;
 
 int Tick_Fct2(int state){
   unsigned char x = GetKeypadKey();
-  
+  unsigned int i = 0; 
+ 
   switch (state){
-    case SMStart2:
-    state = Wait;
-    break;
-      
-    case Wait:
-    if (x == '#'){
-      state = Pound_Press;
-    } else {
+  
+    case Reset:
+     if (x != userCombo[i]){
+      state = Reset;
+      i = 0;
+     } else if (x == userCombo[i]) {
       state = Wait;
-    }
-      break;
-     
-    case Pound_Press:
-      if (x == '#'){
-        state = Pound_Press;
-      } else if (x == '\0') {
-        state = Pound_Wait;
-      } else {
-        state = Wait;
-      }
-      break;
-      
-    case Pound_Wait:
-      if (x == '\0'){
-        state = Pound_Wait;
-      } else if (x == '1'){
-        state = One_Press;
-      } else {
-        state = Wait;
-      }
-      break;
-      
-    case One_Press:
-      if (x == '1'){
-        state = One_Press;
-      } else if (x == '\0'){
-        state = One_Wait;
-      } else {
-        state = Wait;
-      }
-     break;
-      
-    case One_Wait:
-      if (x == '\0'){
-        state = One_Wait;
-      } else if (x == '2'){
-        state = Two_Press;
-      } else {
-        state = Wait;
-      }
-      break;
-      
-      case Two_Press:
-      if (x == '2'){
-        state = Two_Press;
-      } else if (x == '\0'){
-        state = Two_Wait;
-      } else {
-        state = Wait;
-      }
-     break;
-      
-    case Two_Wait:
-      if (x == '\0'){
-        state = Two_Wait;
-      } else if (x == '3'){
-        state = Three_Press;
-      } else {
-        state = Wait;
-      }
-      break;
-      
-      case Three_Press:
-      if (x == '3'){
-        state = Three_Press;
-      } else if (x == '\0'){
-        state = Three_Wait;
-      } else {
-        state = Wait;
-      }
-     break;
-      
-    case Three_Wait:
-      if (x == '\0'){
-        state = Three_Wait;
-      } else if (x == '4'){
-        state = Four_Press;
-      } else {
-        state = Wait;
-      }
-      break;
-      
-   case Four_Press:
-      if (x == '4'){
-        state = Four_Press;
-      } else if (x == '\0'){
-        state = Four_Wait;
-      } else {
-        state = Wait;
-      }
-     break;
-      
-    case Four_Wait:
-      if (x == '\0'){
-        state = Four_Wait;
-      } else if (x == '5'){
-        state = Five_Press;
-      } else {
-        state = Wait;
-      }
-      break;
-     
-     case Five_Press:
-      if (x == '5'){
-        state = Five_Press;
-      } else if (x == '\0'){
-        state = Five_Wait;
-      } else {
-        state = Wait;
-      }
-     break;
-      
-    case Five_Wait:
-      if (button1){
-        state = Wait;
-      } else {
-        state = Five_Wait;
-      }
-      break;         
-  } 
+     } 
+     break;           
+                
+   case Wait:
+    if (x == '/0'){
+     state = Release;
+     i += 1;
+    } else if (x == userCombo[i]){
+     state = Wait;
+    } else {
+     state = Reset;
+     i = 0;
+    } 
+    break;
   
+   case Release:
+    if ((x == userCombo[i]) && (i < 5)){
+     state = Wait;
+    } else if (i >= 5){
+     state = Unlock;
+    } else if (x != userCombo[i]) {
+     state = Reset;
+     i = 0;
+    }
+    break;
+    
+   case Unlock:
+    if (button1){
+     state = Reset;
+    } else {
+     state = Unlock;
+    }
+    break;
+     
   switch (state){
-    case SMStart2: 
-      break;
-    
-    case Five_Wait:
-       PORTB = 0x01;
-    break;
-      
-    case One_Wait:
-      PORTB = 0x02;
+   case Reset: 
+      PORTB = 0x00;
     break;
     
-   case Two_Wait:
-    PORTB = 0x04;
-    break;
-   
-   case Three_Wait:
-    PORTB = 0x08;
+   case Wait: 
+     PORTB = 0x08;
     break;
     
-   case Four_Wait:
-    PORTB = 0x10;
+   case Release: 
+     PORTB = 0x10;
+    break;
+    
+   case Unlock:
+     PORTB = 0x01;
     break;
   }
+    
+   default:
+    PORTB = 0x00;
  
  return state;
 }
