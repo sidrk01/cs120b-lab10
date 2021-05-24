@@ -1,7 +1,7 @@
 /*      Author: Sidharth Ramkumar 
  *  Partner(s) Name: none 
  *      Lab Section: 022
- *      Assignment: Lab #10  Exercise #2
+ *      Assignment: Lab #10  Exercise #3
  *      Exercise Description: [optional - include for your own benefit]
  *
  *      I acknowledge all content contained herein, excluding template or example
@@ -16,8 +16,7 @@
 #include "getkey.h"
 #include "doorlock.h"
 // #include "pause.h"
-//#include "pwm.h"
-//#include "notes.h"
+#include "pwm.h"
 #include "gcd.h"
 #endif
 
