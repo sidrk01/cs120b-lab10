@@ -9,7 +9,7 @@ enum Keypad_Lock {Reset, Wait, Release, Unlock ;
 
 int Tick_Fct2(int state){
   unsigned char x = GetKeypadKey();
-  unsigned int i = 0; 
+  unsigned intc; 
  
   switch (state){
   
