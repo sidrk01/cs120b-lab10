@@ -3,13 +3,12 @@
  
 #define button1 ~PINB & 0x80
 
-char userCombo[6] = {'#', '1', '2', '3', '4', '5'}
+char userCombo[6] = {'#', '1', '2', '3', '4', '5'};
 
-enum Keypad_Lock {Reset, Wait, Release, Unlock ;
+enum Keypad_Lock {Reset, Wait, Release, Unlock} ;
 
 int Tick_Fct2(int state){
-  unsigned char x = GetKeypadKey();
-  unsigned intc; 
+  unsigned int i; 
  
   switch (state){
   
