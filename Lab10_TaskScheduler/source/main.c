@@ -13,6 +13,7 @@
 #include "timer.h"
 #include "keypad.h"
 #include "task.h"
+#include "getkey.h"
 #include "doorlock.h"
 // #include "pause.h"
 //#include "pwm.h"
@@ -20,40 +21,6 @@
 #include "gcd.h"
 #endif
 
-unsigned char keypadKey;
-
-enum Keypad_State { SMStart, Wait_One, Read };
-
-int Tick_Fct(int state){
-    switch (state){
-        case SMStart:
-            state = Wait_One;
-        break;
-
-        case Wait_One:
-            state = Read;
-        break;
-
-        case Read:
-            state = Read;
-        break;
-    }
-
-    switch (state){
-        case SMStart:
-        break;
-
-        case Wait_One:
-            keypadKey = '\0';
-        break;
-
-        case Read:
-             keypadKey = GetKeypadKey();
-        break;
-    }
-
-    return state;
-}
 /*
 static task task1;
 task *tasks[] = {&task1 };
